@@ -58,6 +58,16 @@ class NoticeLampa extends NoticeClass {
                 if(reject) reject(e)
             })
         }
+        // PATCH START
+        else if (element.from === 'torrserver') {
+            this.db.updateData('all', element.id, element).then(this.update.bind(this)).then((e)=>{
+                if(resolve) resolve(e)
+            }).catch((e)=>{
+                if(reject) reject(e)
+            })
+            return;
+        }
+        // PATCH END
         else if(reject) reject('Already added')
     }
 
