@@ -1029,6 +1029,7 @@ function component(object){
     }
 
     this.addToBase = function(element){
+        console.error(element);
         Torserver.add({
             poster: object.movie.img,
             title: object.movie.title + ' / ' + object.movie.original_title,
@@ -1164,6 +1165,12 @@ function component(object){
                         title: Lang.translate('torrent_parser_add_to_mytorrents'),
                         tomy: true
                     },
+                    // PATCH START
+                    {
+                        title: 'Начать скачивание',
+                        startDownload: true,
+                    },
+                    // PATCH END
                     {
                         title: Lang.translate('torrent_parser_label_title'),
                         subtitle: Lang.translate('torrent_parser_label_descr'),
@@ -1193,6 +1200,51 @@ function component(object){
                             }
                             else this.addToBase(element)
                         }
+                        // PATCH START
+                        else if (a.startDownload) {
+                            if(element.reguest && !element.MagnetUri){
+                                this.loadMagnet(element, ()=>{
+                                    this.addToBase(element)
+                                })
+                            }
+                            else this.addToBase(element)
+                            const formData = new FormData()
+                            formData.append('addToTopOfQueue', 'false')
+                            formData.append('autoTMM', 'false')
+                            formData.append('contentLayout', 'Original')
+                            formData.append('dlLimit', '0')
+                            formData.append('firstLastPiecePrio', 'false')
+                            formData.append('paused', 'false')
+                            formData.append('stopped', 'false')
+                            formData.append('savepath', '/app/qBittorrent/downloads')
+                            formData.append('sequentialDownload', 'false')
+                            formData.append('skip_checking', 'false')
+                            formData.append('stopCondition', 'None')
+                            formData.append('upLimit', '0')
+                            formData.append('useDownloadPath', 'false')
+                            formData.append('urls', element.MagnetUri)
+                            formData.append('rename', element.Title || element.title)
+                            if (object.movie && 'poster_path' in object.movie && object.movie.poster_path) {
+                                formData.append('tags', object.movie.poster_path)
+                            }
+
+                            fetch('http://localhost:5666/api/v2/torrents/add', {
+                                method: 'POST',
+                                credentials: 'include',
+                                body: formData
+                            })
+
+                            Lampa.Notice.pushNotice('torrserver', {
+                                id: element.MagnetUri.split("urn:btih:")[1].split("&")[0].toLowerCase(),
+                                from: 'torrserver',
+                                title: element.Title || element.title,
+                                text: '',
+                                time: Date.now(),
+                                card: object.movie,
+                                poster: object.movie.poster_path,
+                            });
+                        }
+                        // PATCH END
                         else if(a.mark){
                             this.mark(element, item, true)
                         }

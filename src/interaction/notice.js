@@ -114,13 +114,17 @@ class Notice{
                     this.close()
 
                     Activity.push({
-                        url: '',
-                        component: 'full',
-                        id: element.card.id,
-                        method: element.card.number_of_seasons || element.card.seasons ? 'tv' : 'movie',
-                        card: element.card,
-                        source: Lang.selected(['ru', 'uk', 'be']) ? 'cub' : ''
+                        component: 'mytorrents',
                     })
+
+                    // Activity.push({
+                    //     url: '',
+                    //     component: 'full',
+                    //     id: element.card.id,
+                    //     method: element.card.number_of_seasons || element.card.seasons ? 'tv' : 'movie',
+                    //     card: element.card,
+                    //     source: Lang.selected(['ru', 'uk', 'be']) ? 'cub' : ''
+                    // })
                 }
                 else this.listener.send('select',{display: element.display || this.display, element})
             }).on('visible',()=>{

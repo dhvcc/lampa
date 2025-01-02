@@ -54,6 +54,10 @@ function formatStatus(status) {
     if (status === "missingFiles") return "⚠️ Missing Files";
     if (status === "stoppedDL") return "⏹️ Stopped";
     if (status === "downloading") return "📥 Downloading";
+    if (status === "stalledDL") return "🕔 Stalled";
+    if (status === "checkingDL") return "🔍 Checking Disk Files";
+    if (status === "uploading") return "📤 Uploading";
+    if (status === "metaDL") return "📝 Metadata";
     return status
 }
 
@@ -84,7 +88,9 @@ async function fetchTorrentData() {
                 // text: `Status: ${torrent.state}\nProgress: ${progress}%\nDL: ${dlSpeed} MB/s\nUL: ${upSpeed} MB/s`,
                 // time: Date.now(),
                 time: torrent.added_on * 1000,
-                labels: [`Status: ${formatStatus(torrent.state)}`, `Progress: ${progress}%`]
+                labels: [`Status: ${formatStatus(torrent.state)}`, `Progress: ${progress}%`],
+                // Hack to preserve poster
+                poster_path: torrent.tags,
             }
             if (torrent.state === "downloading") {
                 data.labels.push(`DL: ${dlSpeed} MB/s`);
