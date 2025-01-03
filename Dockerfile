@@ -13,9 +13,6 @@ RUN npm install
 # Copy project files
 COPY . .
 
-# Build the application (if needed)
-RUN npm run start -- --build
-
 # Expose port 3000 (matches the README.md localhost:3000)
 EXPOSE 3000
 
