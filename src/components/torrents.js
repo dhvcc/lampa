@@ -1029,7 +1029,6 @@ function component(object){
     }
 
     this.addToBase = function(element){
-        console.error(element);
         Torserver.add({
             poster: object.movie.img,
             title: object.movie.title + ' / ' + object.movie.original_title,

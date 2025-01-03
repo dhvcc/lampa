@@ -60,9 +60,12 @@ class NoticeLampa extends NoticeClass {
         }
         // PATCH START
         else if (element.from === 'torrserver') {
+            const notice = this.notices.find(n=>n.id == element.id)
             const mergedElement = {
                 ...element,
-                title: this.notices.find(n=>n.id == element.id).title,
+                title: notice.title,
+                poster: notice.poster,
+                card: notice.card,
             }
             this.db.updateData('all', element.id, mergedElement).then(this.update.bind(this)).then((e)=>{
                 if(resolve) resolve(e)

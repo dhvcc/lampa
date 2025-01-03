@@ -1,10 +1,13 @@
 import Plugin from '../utils/plugins';
 
-const CORS_PROXY = 'http://localhost:5667';
-const TS_URL = `${CORS_PROXY}/http://torrserver:5665`;
-const QBIT_URL = `http://localhost:5666`;
+const _PROTOCOL = "http://";
+const _ADDRESS = window.location.href.split(_PROTOCOL)[1].split("/")[0].split(":")[0];
 
-const FETCH_TORRENT_DATA_INTERVAL = 5000; // 5 seconds
+const CORS_PROXY = `${_PROTOCOL}${_ADDRESS}:5667`;
+const TS_URL = `${CORS_PROXY}/${_PROTOCOL}torrserver:5665`;
+const QBIT_URL = `${_PROTOCOL}${_ADDRESS}:5666`;
+
+const FETCH_TORRENT_DATA_INTERVAL = 10000; // 5 seconds
 
 // Function to authenticate and get token
 async function authenticateQBit() {
@@ -78,7 +81,6 @@ async function fetchTorrentData() {
         Object.entries(data.torrents).forEach(([hash, torrent]) => {
             const progress = Math.round(torrent.progress * 100);
             const dlSpeed = (torrent.dlspeed / (1024 * 1024)).toFixed(2);
-            const upSpeed = (torrent.upspeed / (1024 * 1024)).toFixed(2);
 
             const data = {
                 id: hash,
@@ -90,7 +92,7 @@ async function fetchTorrentData() {
                 time: torrent.added_on * 1000,
                 labels: [`Status: ${formatStatus(torrent.state)}`, `Progress: ${progress}%`],
                 // Hack to preserve poster
-                poster_path: torrent.tags,
+                poster: torrent.tags,
             }
             if (torrent.state === "downloading") {
                 data.labels.push(`DL: ${dlSpeed} MB/s`);
@@ -119,9 +121,8 @@ function init() {
         Lampa.Storage.set('lme_url_two', 'jacred_xyz');
         Lampa.Storage.set('parse_in_search', true);
 
-        console.error(Lampa.Storage.field('plugins'), typeof Lampa.Storage.field('plugins'));
         if (JSON.stringify(Lampa.Storage.field('plugins')) === JSON.stringify([])) {
-            console.error("NO PLUGINS INSTALLED")
+            console.error("NO PLUGINS INSTALLED. ADDING DEFAULT PLUGINS.")
             Plugin.add({
                 url: 'http://cub.red/plugin/trailers',
                 status: 1,
@@ -188,7 +189,6 @@ function init() {
                 "author": "@rootu"
             });
         }
-        document.querySelector('.selector.christmas__button').remove();
     }, 500)
     setTimeout(() => {
         setInterval(fetchTorrentData, FETCH_TORRENT_DATA_INTERVAL);
