@@ -466,7 +466,6 @@ function Card(data, params = {}){
         this.build()
 
         // PATCH START
-        console.error("Building", this)
         if (this.params.card_torrent) {
             const torrent_status = Storage.get('qbit_torrents', {})[data.hash];
             if (!torrent_status) {

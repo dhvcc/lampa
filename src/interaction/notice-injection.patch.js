@@ -6,7 +6,7 @@ const _ADDRESS = window.location.href.split(_PROTOCOL)[1].split("/")[0].split(":
 
 const CORS_PROXY = `${_PROTOCOL}${_ADDRESS}:5667`;
 const TS_URL = `${CORS_PROXY}/${_PROTOCOL}torrserver:5665`;
-const QBIT_URL = `${_PROTOCOL}${_ADDRESS}:5666`;
+const QBIT_URL = `${CORS_PROXY}/${_PROTOCOL}qbittorrent:5666`;
 
 const FETCH_TORRENT_DATA_INTERVAL = 10000; // 5 seconds
 
