@@ -1,4 +1,5 @@
 import Plugin from '../utils/plugins';
+import Storage from '../utils/storage';
 
 const _PROTOCOL = "http://";
 const _ADDRESS = window.location.href.split(_PROTOCOL)[1].split("/")[0].split(":")[0];
@@ -83,26 +84,34 @@ async function fetchTorrentData() {
             const dlSpeed = (torrent.dlspeed / (1024 * 1024)).toFixed(2);
 
             const data = {
-                id: hash,
-                from: 'torrserver',
-                title: torrent.name,
-                text: '',
+                // id: hash,
+                // from: 'torrserver',
+                // title: torrent.name,
+                // text: '',
                 // text: `Status: ${torrent.state}\nProgress: ${progress}%\nDL: ${dlSpeed} MB/s\nUL: ${upSpeed} MB/s`,
                 // time: Date.now(),
                 time: torrent.added_on * 1000,
-                labels: [`Status: ${formatStatus(torrent.state)}`, `Progress: ${progress}%`],
+                // labels: [`Status: ${formatStatus(torrent.state)}`, `Progress: ${progress}%`],
+                status: formatStatus(torrent.state),
+                progress: progress,
+                size: torrent.size,
                 // Hack to preserve poster
-                poster: torrent.tags,
+                // poster: torrent.tags,
             }
             if (torrent.state === "downloading") {
-                data.labels.push(`DL: ${dlSpeed} MB/s`);
-                data.labels.push(`ETA: ${formatETA(torrent.eta)}`);
+                // data.labels.push(`DL: ${dlSpeed} MB/s`);
+                // data.labels.push(`ETA: ${formatETA(torrent.eta)}`);
+                data.dl = dlSpeed;
+                data.eta = formatETA(torrent.eta);
             }
 
             // const resolve = (v) => console.error('good', v)
             // const reject = (v) => console.error('bad', v)
 
-            Lampa.Notice.pushNotice('torrserver', data);
+            // Lampa.Notice.pushNotice('torrserver', data);
+            const prevState = Storage.get('qbit_torrents', {});
+            prevState[hash] = data;
+            Storage.set('qbit_torrents', prevState);
         });
     } catch (error) {
         console.error('Failed to fetch torrent data:', error);
@@ -111,8 +120,8 @@ async function fetchTorrentData() {
 
 function init() {
     setTimeout(() => {
-        var mynotice = new Lampa.NoticeClassLampa({ name: 'TorrServer', db_name: 'notice_torr' });
-        Lampa.Notice.addClass('torrserver', mynotice);
+        // var mynotice = new Lampa.NoticeClassLampa({ name: 'TorrServer', db_name: 'notice_torr' });
+        // Lampa.Notice.addClass('torrserver', mynotice);
 
         Lampa.Storage.set('parser_use', true);
         Lampa.Storage.set('vpn_checked_ready', true);

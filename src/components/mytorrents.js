@@ -17,6 +17,9 @@ function component(object){
     let scroll  = new Scroll({mask:true,over:true,step: 250,end_ratio:2})
     let items   = []
     let html    = $('<div></div>')
+    // PATCH START
+    let head = $("<div><div style='margin: 1em; width: fit-content;' class='simple-button selector'>Update</div></div>");
+    // PATCH END
     let body    = $('<div class="category-full"></div>')
     let total_pages = 0
     let last
@@ -58,7 +61,9 @@ function component(object){
 
             let item_data = Arrays.decodeJson(element.data,{})
 
-            let card = new Card(element, {card_category: true})
+            // PATCH START
+            let card = new Card(element, {card_category: true, card_torrent: true})
+            // PATCH END
                 card.create()
                 card.onFocus = (target, card_data)=>{
                     last = target
@@ -145,13 +150,24 @@ function component(object){
 
         this.append(torrents.slice(0,20))
 
+        // PATCH START
+        scroll.append(head)
+        // PATCH END
         scroll.append(body)
-
         html.append(scroll.render())
 
         this.activity.loader(false)
 
         this.activity.toggle()
+        // PATCH START
+        var reload = head.find('.simple-button');
+        reload.on('hover:enter', function () {
+            Lampa.Activity.push({
+                component: 'mytorrents',
+                title: Lang.translate('title_mytorrents'),
+            });
+        });
+        // PATCH END
     }
 
 

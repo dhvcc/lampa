@@ -2287,6 +2287,78 @@ body.settings--open .settings__layer {
   border-radius: 0.3em;
   text-transform: uppercase;
 }
+.card__torrent_status {
+  position: absolute;
+  left: -0.4em;
+  top: -0.3em;
+  padding: 0.4em 0.4em;
+  background: #ffffff;
+  color: #000;
+  font-size: 0.8em;
+  -webkit-border-radius: 0.3em;
+  border-radius: 0.3em;
+  -webkit-border-top-left-radius: 0.8em;
+          border-top-left-radius: 0.8em;
+  -webkit-border-top-right-radius: 0;
+          border-top-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+          border-bottom-left-radius: 0;
+  text-transform: uppercase;
+}
+.card__torrent_dl {
+  position: absolute;
+  right: -0.4em;
+  top: -0.3em;
+  padding: 0.4em 0.4em;
+  background: #ffffff;
+  color: #000;
+  font-size: 0.8em;
+  -webkit-border-radius: 0.3em;
+  border-radius: 0.3em;
+  -webkit-border-top-right-radius: 0.8em;
+          border-top-right-radius: 0.8em;
+  -webkit-border-top-left-radius: 0;
+          border-top-left-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+          border-bottom-right-radius: 0;
+  text-transform: uppercase;
+}
+.card__torrent_size {
+  position: absolute;
+  left: -0.4em;
+  bottom: -0.3em;
+  padding: 0.4em 0.4em;
+  background: #ffffff;
+  color: #000;
+  font-size: 0.8em;
+  -webkit-border-radius: 0.3em;
+  border-radius: 0.3em;
+  -webkit-border-bottom-left-radius: 0.8em;
+          border-bottom-left-radius: 0.8em;
+  -webkit-border-top-left-radius: 0;
+          border-top-left-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+          border-bottom-right-radius: 0;
+  text-transform: uppercase;
+}
+.card__torrent_progress {
+  position: absolute;
+  right: -0.4em;
+  bottom: -0.3em;
+  padding: 0.4em 0.4em;
+  background: #ffffff;
+  color: #000;
+  font-size: 0.8em;
+  -webkit-border-radius: 0.3em;
+  border-radius: 0.3em;
+  -webkit-border-bottom-right-radius: 0.8em;
+          border-bottom-right-radius: 0.8em;
+  -webkit-border-top-right-radius: 0;
+          border-top-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+          border-bottom-left-radius: 0;
+  text-transform: uppercase;
+}
 .card__vote {
   position: absolute;
   right: 0.3em;

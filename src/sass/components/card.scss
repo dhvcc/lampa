@@ -212,6 +212,83 @@
         border-radius: 0.3em;
         text-transform: uppercase;
     }
+    // PATCH START
+    &__torrent_status{
+        position: absolute;
+        left: -0.4em;
+        top: -0.3em;
+        padding: 0.4em 0.4em;
+        background: #ffffff;
+        color: #000;
+        font-size: 0.8em;
+        
+        -webkit-border-radius: 0.3em;
+        -moz-border-radius: 0.3em;
+        border-radius: 0.3em;
+        border-top-left-radius: 0.8em;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 0;
+
+        text-transform: uppercase;
+    }
+
+    &__torrent_dl{
+        position: absolute;
+        right: -0.4em;
+        top: -0.3em;
+        padding: 0.4em 0.4em;
+        background: #ffffff;
+        color: #000;
+        font-size: 0.8em;
+        
+        -webkit-border-radius: 0.3em;
+        -moz-border-radius: 0.3em;
+        border-radius: 0.3em;
+        border-top-right-radius: 0.8em;
+        border-top-left-radius: 0;
+        border-bottom-right-radius: 0;
+
+        text-transform: uppercase;
+    }
+
+    &__torrent_size{
+        position: absolute;
+        left: -0.4em;
+        bottom: -0.3em;
+        padding: 0.4em 0.4em;
+        background: #ffffff;
+        color: #000;
+        font-size: 0.8em;
+        
+        -webkit-border-radius: 0.3em;
+        -moz-border-radius: 0.3em;
+        border-radius: 0.3em;
+        border-bottom-left-radius: 0.8em;
+        border-top-left-radius: 0;
+        border-bottom-right-radius: 0;
+
+        text-transform: uppercase;
+    }
+
+    &__torrent_progress{
+        position: absolute;
+        right: -0.4em;
+        bottom: -0.3em;
+        padding: 0.4em 0.4em;
+        background: #ffffff;
+        color: #000;
+        font-size: 0.8em;
+                
+        -webkit-border-radius: 0.3em;
+        -moz-border-radius: 0.3em;
+        border-radius: 0.3em;
+        border-bottom-right-radius: 0.8em;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 0;
+
+        text-transform: uppercase;
+    }
+    // PATCH END
 
     &__vote{
         position: absolute;

@@ -20,7 +20,9 @@ import Account from '../utils/account'
 /**
  * Карточка
  * @param {object} data
- * @param {{isparser:boolean, card_small:boolean, card_category:boolean, card_collection:boolean, card_wide:true}} params 
+ * PATCH START added card_torrent
+ * @param {{isparser:boolean, card_small:boolean, card_category:boolean, card_collection:boolean, card_wide:true, card_torrent:boolean}} params 
+ * PATCH END
  */
 function Card(data, params = {}){
     this.data   = data
@@ -463,6 +465,50 @@ function Card(data, params = {}){
     this.create = function(){
         this.build()
 
+        // PATCH START
+        console.error("Building", this)
+        if (this.params.card_torrent) {
+            const torrent_status = Storage.get('qbit_torrents', {})[data.hash];
+            if (!torrent_status) {
+                return;
+            }
+            console.error(torrent_status);
+
+            let status = document.createElement('div')
+                status.classList.add('card__torrent_status')
+            let statusInner = document.createElement('div')
+                if (torrent_status.status) statusInner.innerText = torrent_status.status;
+                status.appendChild(statusInner)
+            
+            let progress = document.createElement('div')
+                progress.classList.add('card__torrent_progress')
+            let progressInner = document.createElement('div')
+                if (torrent_status.progress) progressInner.innerText = torrent_status.progress + '%';
+                progress.appendChild(progressInner)
+
+            if (torrent_status.dl && torrent_status.eta) {
+                let dl = document.createElement('div')
+                    dl.classList.add('card__torrent_dl')
+                let dlInner = document.createElement('div')
+                    if (torrent_status.dl && torrent_status.eta) dlInner.innerText = torrent_status.dl + ', ETA: ' + torrent_status.eta;
+                    dl.appendChild(dlInner)
+            }
+
+            let size = document.createElement('div')
+                size.classList.add('card__torrent_size')
+            let sizeInner = document.createElement('div')
+                sizeInner.innerText = Lampa.Utils.bytesToSize(torrent_status.size);
+                size.appendChild(sizeInner)
+
+            const view = this.card.querySelector('.card__view')
+            // add data-torrent-hash attribute to view
+            view.setAttribute('data-torrent-hash', data.hash)
+            view.appendChild(status)
+            view.appendChild(progress)
+            if (torrent_status.dl && torrent_status.eta) { view.appendChild(dl) }
+            view.appendChild(size)
+        }
+        // PATCH END
         this.card.addEventListener('hover:focus',()=>{
             this.watched()
 
