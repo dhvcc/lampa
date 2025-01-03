@@ -472,6 +472,7 @@ function Card(data, params = {}){
             if (!torrent_status) {
                 return;
             }
+            const view = this.card.querySelector('.card__view')
             console.error(torrent_status);
 
             let status = document.createElement('div')
@@ -486,12 +487,12 @@ function Card(data, params = {}){
                 if (torrent_status.progress) progressInner.innerText = torrent_status.progress + '%';
                 progress.appendChild(progressInner)
 
+            let dl
             if (torrent_status.dl && torrent_status.eta) {
-                let dl = document.createElement('div')
-                    dl.classList.add('card__torrent_dl')
-                let dlInner = document.createElement('div')
-                    if (torrent_status.dl && torrent_status.eta) dlInner.innerText = torrent_status.dl + ', ETA: ' + torrent_status.eta;
-                    dl.appendChild(dlInner)
+                status.style.width = 'calc(100% + 0.8em)';
+                status.style.borderTopRightRadius = '0.8em';
+
+                status.innerText = status.innerText + ', ' + torrent_status.dl + ' MB/s, ETA: ' + torrent_status.eta;
             }
 
             let size = document.createElement('div')
@@ -500,12 +501,10 @@ function Card(data, params = {}){
                 sizeInner.innerText = Lampa.Utils.bytesToSize(torrent_status.size);
                 size.appendChild(sizeInner)
 
-            const view = this.card.querySelector('.card__view')
             // add data-torrent-hash attribute to view
             view.setAttribute('data-torrent-hash', data.hash)
             view.appendChild(status)
             view.appendChild(progress)
-            if (torrent_status.dl && torrent_status.eta) { view.appendChild(dl) }
             view.appendChild(size)
         }
         // PATCH END

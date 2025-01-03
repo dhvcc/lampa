@@ -8,6 +8,13 @@
         margin-left: 1em;
     }
 
+    // PATCH START
+    &.focus {
+        .card__torrent_status, .card__torrent_dl, .card__torrent_size, .card__torrent_progress {
+            box-shadow: none !important;
+        }
+    }
+    // PATCH END
     &__img{
         border-radius: 1em;
         position: absolute;
@@ -229,7 +236,8 @@
         border-top-right-radius: 0;
         border-bottom-left-radius: 0;
 
-        text-transform: uppercase;
+        // text-transform: uppercase;
+        box-shadow: 0 2px 8px -2px gray;
     }
 
     &__torrent_dl{
@@ -248,7 +256,8 @@
         border-top-left-radius: 0;
         border-bottom-right-radius: 0;
 
-        text-transform: uppercase;
+        // text-transform: uppercase;
+        box-shadow: 0 2px 8px -2px gray;
     }
 
     &__torrent_size{
@@ -267,7 +276,8 @@
         border-top-left-radius: 0;
         border-bottom-right-radius: 0;
 
-        text-transform: uppercase;
+        // text-transform: uppercase;
+        box-shadow: 0 2px 8px -2px gray;
     }
 
     &__torrent_progress{
@@ -286,7 +296,8 @@
         border-top-right-radius: 0;
         border-bottom-left-radius: 0;
 
-        text-transform: uppercase;
+        // text-transform: uppercase;
+        box-shadow: 0 2px 8px -2px gray;
     }
     // PATCH END
 
