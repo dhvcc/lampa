@@ -128,7 +128,7 @@ function init() {
         Lampa.Storage.set('vpn_checked_ready', true);
         Lampa.Storage.set('torrserver_url', TS_URL);
         Lampa.Storage.set('jackett_key', '');
-        Lampa.Storage.set('jackett_url', 'jacred_xyz');
+        Lampa.Storage.set('jackett_url', 'jacred.xyz');
         Lampa.Storage.set('jackett_url2', 'jacred_xyz');
         Lampa.Storage.set('lme_url_two', 'jacred_xyz');
         Lampa.Storage.set('parse_in_search', true);
