@@ -473,7 +473,6 @@ function Card(data, params = {}){
                 return;
             }
             const view = this.card.querySelector('.card__view')
-            console.error(torrent_status);
 
             let status = document.createElement('div')
                 status.classList.add('card__torrent_status')

@@ -198,6 +198,12 @@ function init() {
                 "name": "Предзагрузка ts",
                 "author": "@rootu"
             });
+            Plugin.add({
+                "url": "https://lampame.github.io/main/shikimori.js",
+                "status": 1,
+                "name": "Shikimori catalog",
+                "author": "@lme_chat"
+            });
         }
     }, 500)
     setTimeout(() => {
