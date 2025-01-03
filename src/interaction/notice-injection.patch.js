@@ -93,6 +93,7 @@ async function fetchTorrentData() {
                 time: torrent.added_on * 1000,
                 // labels: [`Status: ${formatStatus(torrent.state)}`, `Progress: ${progress}%`],
                 status: formatStatus(torrent.state),
+                state: torrent.state,
                 progress: progress,
                 size: torrent.size,
                 // Hack to preserve poster

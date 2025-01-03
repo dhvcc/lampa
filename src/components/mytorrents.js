@@ -11,6 +11,9 @@ import Torrent from '../interaction/torrent'
 import Select from '../interaction/select'
 import Utils from '../utils/math'
 import Lang from '../utils/lang'
+// PATCH START
+import Storage from '../utils/storage'
+// PATCH END
 
 function component(object){
     let network = new Reguest()
@@ -84,6 +87,13 @@ function component(object){
                 }
 
                 card.onMenu = (target, card_data)=>{
+                    // PATCH START
+                    const view = target.querySelector(".card__view")
+                    let hash;
+                    if (view) {
+                        hash = view.getAttribute("data-torrent-hash");
+                    }
+                    // PATCH END
                     let enabled = Controller.enabled().name
                     let menu    = []
 
@@ -92,6 +102,22 @@ function component(object){
                             title: Lang.translate('title_card')
                         })
                     }
+                    // PATCH START
+                    if (hash) {
+                        const state = Storage.get('qbit_torrents', {})[hash];
+                        if (state.state.includes('stopped')) {
+                            menu.push({
+                                title: Lang.translate('torrent_resume'),
+                                resume: true
+                            })
+                        } else {
+                            menu.push({
+                                title: Lang.translate('torrent_pause'),
+                                pause: true
+                            })
+                        }
+                    }
+                    // PATCH END
 
                     menu.push({
                         title: Lang.translate('torrent_remove_title'),
@@ -109,6 +135,23 @@ function component(object){
                             if(a.remove){
                                 Torserver.remove(card_data.hash)
 
+                                // PATCH START
+                                const formData = new FormData()
+                                formData.append('hashes', card_data.hash)
+                                formData.append('deleteFiles', true)
+
+                                const _PROTOCOL = "http://";
+                                const _ADDRESS = window.location.href.split(_PROTOCOL)[1].split("/")[0].split(":")[0];
+                                const QBIT_URL = `${_PROTOCOL}${_ADDRESS}:5666`;
+
+                                fetch(`${QBIT_URL}/api/v2/torrents/delete`, {
+                                    method: 'POST',
+                                    credentials: 'include',
+                                    body: formData
+                                }).catch(error => {
+                                    console.error('Failed to delete torrent:', error);
+                                });
+                                // PATCH END
                                 Arrays.remove(items, card)
 
                                 card.destroy()
@@ -117,6 +160,44 @@ function component(object){
 
                                 Controller.toggle(enabled)
                             }
+                            // PATCH START
+                            else if (a.pause) {
+                                const formData = new FormData()
+                                formData.append('hashes', card_data.hash)
+
+                                const _PROTOCOL = "http://";
+                                const _ADDRESS = window.location.href.split(_PROTOCOL)[1].split("/")[0].split(":")[0];
+                                const QBIT_URL = `${_PROTOCOL}${_ADDRESS}:5666`;
+
+                                fetch(`${QBIT_URL}/api/v2/torrents/stop`, {
+                                    method: 'POST',
+                                    credentials: 'include',
+                                    body: formData
+                                }).catch(error => {
+                                    console.error('Failed to stop torrent:', error);
+                                });
+                                Controller.toggle(enabled)
+                                // Noty
+                            }
+                            else if (a.resume) {
+                                const formData = new FormData()
+                                formData.append('hashes', card_data.hash)
+
+                                const _PROTOCOL = "http://";
+                                const _ADDRESS = window.location.href.split(_PROTOCOL)[1].split("/")[0].split(":")[0];
+                                const QBIT_URL = `${_PROTOCOL}${_ADDRESS}:5666`;
+
+                                fetch(`${QBIT_URL}/api/v2/torrents/start`, {
+                                    method: 'POST',
+                                    credentials: 'include',
+                                    body: formData
+                                }).catch(error => {
+                                    console.error('Failed to start torrent:', error);
+                                });
+                                Controller.toggle(enabled)
+                                // Noty
+                            }
+                            // PATCH END
                             else{
                                 Activity.push({
                                     url: item_data.movie.url,

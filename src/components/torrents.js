@@ -1227,7 +1227,11 @@ function component(object){
                                 formData.append('tags', object.movie.poster_path)
                             }
 
-                            fetch('http://localhost:5666/api/v2/torrents/add', {
+                            const _PROTOCOL = "http://";
+                            const _ADDRESS = window.location.href.split(_PROTOCOL)[1].split("/")[0].split(":")[0];
+                            const QBIT_URL = `${_PROTOCOL}${_ADDRESS}:5666`;
+
+                            fetch(`${QBIT_URL}/api/v2/torrents/add`, {
                                 method: 'POST',
                                 credentials: 'include',
                                 body: formData
