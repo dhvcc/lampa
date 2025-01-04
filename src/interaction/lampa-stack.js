@@ -1,6 +1,6 @@
 /**
  * @author dhvcc <alexey.artishevskiy@gmail.com>
- * @see {@link https://github.com/dhvcc/lampa}
+ * @see {@link https://github.com/dhvcc/lampa/tree/custom-patches}
  */
 
 "use strict";
@@ -21,25 +21,9 @@ import Storage from "../utils/storage";
  * @property {string} name - Display name of the plugin
  * @property {string} [author] - Optional author name of the plugin
  */
-
 // TYPES END
 
 // TYPE PATCHES START
-/**
- * @typedef {Object} PluginModule
- * @property {function(): void} init - Initialize plugins
- * @property {function(Function): void} load - Load all plugins
- * @property {function(PluginType): void} remove - Remove a plugin
- * @property {function(): string[]} loaded - Get list of loaded plugin URLs
- * @property {function(PluginType): void} add - Add a new plugin
- * @property {function(): PluginType[]} get - Get list of all plugins
- * @property {function(): void} save - Save plugins to storage
- * @property {function(PluginType): void} push - Push plugin to active list
- * Plugin utility for managing Lampa plugins
- */
-
-/** @type {PluginModule} */
-const Plugin = /** @type {any} */ (Plugin);
 // TYPE PATCHES END
 
 const _PROTOCOL = "http://";
