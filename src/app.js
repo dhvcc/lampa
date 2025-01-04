@@ -95,7 +95,7 @@ import Sound from './utils/sound'
 import AppStatus from './interaction/status'
 import Iptv from './utils/iptv'
 import Bell from './interaction/bell'
-import TorrServerNotice from './interaction/notice-injection.patch'
+import LampaStack from './interaction/lampa-stack'
 
 /**
  * Настройки движка
@@ -471,7 +471,7 @@ function startApp(){
     Theme.init()
     AdManager.init()
     NavigationBar.init()
-    TorrServerNotice.init()
+    LampaStack.init()
     Demo.init()
     Speedtest.init()
     VPN.init()

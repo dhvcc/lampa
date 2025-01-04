@@ -14,6 +14,7 @@ import Lang from '../utils/lang'
 // PATCH START
 import Storage from '../utils/storage'
 // PATCH END
+import QBittorrent from '../utils/qbittorrent'
 
 function component(object){
     let network = new Reguest()
@@ -134,71 +135,33 @@ function component(object){
                         onSelect: (a)=>{
                             if(a.remove){
                                 Torserver.remove(card_data.hash)
-
+                                
                                 // PATCH START
-                                const formData = new FormData()
-                                formData.append('hashes', card_data.hash)
-                                formData.append('deleteFiles', true)
-
-                                const _PROTOCOL = "http://";
-                                const _ADDRESS = window.location.href.split(_PROTOCOL)[1].split("/")[0].split(":")[0];
-                                const CORS_PROXY = `${_PROTOCOL}${_ADDRESS}:5667`;
-                                const QBIT_URL = `${CORS_PROXY}/${_PROTOCOL}qbittorrent:5666`;
-
-                                fetch(`${QBIT_URL}/api/v2/torrents/delete`, {
-                                    method: 'POST',
-                                    credentials: 'include',
-                                    body: formData
-                                }).catch(error => {
-                                    console.error('Failed to delete torrent:', error);
-                                });
+                                QBittorrent.delete(card_data.hash)
+                                    .catch(error => {
+                                        console.error('Failed to delete torrent:', error);
+                                    });
                                 // PATCH END
+
                                 Arrays.remove(items, card)
-
                                 card.destroy()
-
                                 last = false
-
                                 Controller.toggle(enabled)
                             }
                             // PATCH START
-                            else if (a.pause) {
-                                const formData = new FormData()
-                                formData.append('hashes', card_data.hash)
-
-                                const _PROTOCOL = "http://";
-                                const _ADDRESS = window.location.href.split(_PROTOCOL)[1].split("/")[0].split(":")[0];
-                                const CORS_PROXY = `${_PROTOCOL}${_ADDRESS}:5667`;
-                                const QBIT_URL = `${CORS_PROXY}/${_PROTOCOL}qbittorrent:5666`;
-
-                                fetch(`${QBIT_URL}/api/v2/torrents/stop`, {
-                                    method: 'POST',
-                                    credentials: 'include',
-                                    body: formData
-                                }).catch(error => {
-                                    console.error('Failed to stop torrent:', error);
-                                });
+                            else if(a.pause) {
+                                QBittorrent.pause(card_data.hash)
+                                    .catch(error => {
+                                        console.error('Failed to stop torrent:', error);
+                                    });
                                 Controller.toggle(enabled)
-                                // Noty
                             }
-                            else if (a.resume) {
-                                const formData = new FormData()
-                                formData.append('hashes', card_data.hash)
-
-                                const _PROTOCOL = "http://";
-                                const _ADDRESS = window.location.href.split(_PROTOCOL)[1].split("/")[0].split(":")[0];
-                                const CORS_PROXY = `${_PROTOCOL}${_ADDRESS}:5667`;
-                                const QBIT_URL = `${CORS_PROXY}/${_PROTOCOL}qbittorrent:5666`;
-
-                                fetch(`${QBIT_URL}/api/v2/torrents/start`, {
-                                    method: 'POST',
-                                    credentials: 'include',
-                                    body: formData
-                                }).catch(error => {
-                                    console.error('Failed to start torrent:', error);
-                                });
+                            else if(a.resume) {
+                                QBittorrent.start(card_data.hash)
+                                    .catch(error => {
+                                        console.error('Failed to start torrent:', error);
+                                    });
                                 Controller.toggle(enabled)
-                                // Noty
                             }
                             // PATCH END
                             else{
