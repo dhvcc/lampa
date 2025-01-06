@@ -13,8 +13,8 @@ import Utils from '../utils/math'
 import Lang from '../utils/lang'
 // PATCH START
 import Storage from '../utils/storage'
+import QBittorrent from '../interaction/qbittorrent'
 // PATCH END
-import QBittorrent from '../utils/qbittorrent'
 
 function component(object){
     let network = new Reguest()
@@ -209,6 +209,7 @@ function component(object){
         // PATCH START
         var reload = head.find('.simple-button');
         reload.on('hover:enter', function () {
+            QBittorrent.sync()
             Lampa.Activity.push({
                 component: 'mytorrents',
                 title: Lang.translate('title_mytorrents'),
