@@ -41,12 +41,6 @@ const QBIT_URL = `${CORS_PROXY}/${_PROTOCOL}qbittorrent:5666`;
  */
 const DEFAULT_PLUGINS = [
   {
-    url: "http://cub.red/plugin/trailers",
-    status: 1,
-    name: "Трейлеры",
-    author: "@lampa",
-  },
-  {
     url: "https://nb557.github.io/plugins/rating.js",
     status: 1,
     name: "Рейтинг КиноПоиск и IMDB",
@@ -111,6 +105,37 @@ const DEFAULT_PLUGINS = [
     name: "Shikimori catalog",
     author: "@lme_chat",
   },
+  {
+    url: "http://showy.online/m.js",
+    status: 1,
+    name: "Showy",
+    author: "Showy",
+  },
+  {
+    url: "http://skaz.tv/tv.js",
+    status: 1,
+    name: "Телевидение by Skaz ",
+    author: "@helpiptv",
+  },
+];
+
+const DEFAULT_MENU_ITEMS_SHOW = [
+  ["menu_main", true],
+  ["menu_feed", false],
+  ["settings_input_links", true],
+  ["title_subscribes", true],
+  ["menu_history", true],
+  ["menu_torrents", true],
+  ["menu_timeline", true],
+  ["menu_movies", true],
+  ["title_persons", false][("menu_tv", true)],
+  ["menu_catalog", true],
+  ["menu_relises", false],
+  ["menu_collections", true],
+  ["menu_filter", true],
+  ["menu_anime", true],
+  ["Shikimori", true],
+  ["ТВ by skaz", false][("TV by skaz 2.0", true)],
 ];
 
 const DEFAULT_SETTINGS = {
@@ -136,6 +161,45 @@ function init() {
       Plugin.add(plugin);
     }
   }
+  if (JSON.stringify(Storage.field("menu_hide")) === JSON.stringify([])) {
+    console.error("NO MENU ITEMS HIDDEN. SETTING DEFAULT MENU ITEMS.");
+
+    const DEFAULT_MENU_SORT = [
+      Lampa.Lang.translate("menu_main"),
+      Lampa.Lang.translate("menu_feed"),
+      Lampa.Lang.translate("settings_input_links"),
+      Lampa.Lang.translate("title_subscribes"),
+      Lampa.Lang.translate("menu_history"),
+      Lampa.Lang.translate("menu_torrents"),
+      Lampa.Lang.translate("menu_timeline"),
+      Lampa.Lang.translate("menu_movies"),
+      Lampa.Lang.translate("title_persons"),
+      Lampa.Lang.translate("menu_tv"),
+      Lampa.Lang.translate("menu_catalog"),
+      Lampa.Lang.translate("menu_relises"),
+      Lampa.Lang.translate("menu_collections"),
+      Lampa.Lang.translate("menu_filter"),
+      Lampa.Lang.translate("menu_anime"),
+      Lampa.Lang.translate("Shikimori"),
+      Lampa.Lang.translate("ТВ by skaz"),
+      Lampa.Lang.translate("TV by skaz 2.0"),
+    ];
+
+    const DEFAULT_MENU_HIDE = [
+      Lampa.Lang.translate("menu_feed"),
+      Lampa.Lang.translate("title_persons"),
+      Lampa.Lang.translate("menu_relises"),
+      Lampa.Lang.translate("ТВ by skaz"),
+    ];
+
+    Storage.set("menu_hide", DEFAULT_MENU_HIDE);
+    Storage.set("menu_sort", DEFAULT_MENU_SORT);
+  }
+
+  // Disable Christmas button
+  Lampa.Template.add('DisableChristmasButton', "<style> .christmas__button{display: none;} </style>");
+  $('body').append(Lampa.Template.get('DisableChristmasButton', {}, true));
+
 
   // Initial authentication and data fetch
   QBitTorrent.login(

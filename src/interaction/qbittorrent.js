@@ -29,6 +29,12 @@ export default {
         if (success) success(result);
       },
       (error) => {
+        // Somehow it errors but it's all good
+        if (error.status === 200) {
+          success(error);
+          return;
+        }
+
         console.error("Authentication error:", error);
         if (fail) fail(error);
       },
@@ -104,7 +110,7 @@ export default {
    * Get torrent list with detailed status and store in Storage
    * @returns {void}
    */
-  sync() {
+  sync(success, fail) {
     clear();
     network
       .silent(
@@ -134,20 +140,19 @@ export default {
               processed[hash].eta = formatETA(torrent.eta);
             }
           });
+          Storage.set("qbit_torrents", processed);
 
           if (success) success(processed);
         },
         (error) => {
           console.error("Failed to get torrent list:", error);
           if (fail) fail(error);
+        },
+        undefined,
+        {
+          withCredentials: true,
         }
       )
-      .then((processed) => {
-        Storage.set("qbit_torrents", processed);
-      })
-      .catch((error) => {
-        console.error("Failed to get torrent list:", error);
-      });
   },
 
   clear,
