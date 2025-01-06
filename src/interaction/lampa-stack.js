@@ -27,14 +27,8 @@ import Storage from "../utils/storage";
 // TYPE PATCHES END
 
 const _PROTOCOL = "http://";
-const _ADDRESS = window.location.href
-  .split(_PROTOCOL)[1]
-  .split("/")[0]
-  .split(":")[0];
-const CORS_PROXY = `${_PROTOCOL}${_ADDRESS}:5667`;
-
-const TS_URL = `${CORS_PROXY}/${_PROTOCOL}torrserver:5665`;
-const QBIT_URL = `${CORS_PROXY}/${_PROTOCOL}qbittorrent:5666`;
+const TS_URL = `${window.location.origin}/torrserver`;
+const QBIT_URL = `${window.location.origin}/qbittorrent`;
 
 /**
  * @type {PluginType[]}
@@ -150,7 +144,7 @@ const DEFAULT_SETTINGS = {
 };
 
 function init() {
-  console.error("[LAMPA STACK] Init", _ADDRESS, CORS_PROXY, TS_URL, QBIT_URL);
+  console.error("[LAMPA STACK] Init");
   for (let key in DEFAULT_SETTINGS) {
     Storage.set(key, DEFAULT_SETTINGS[key]);
   }
