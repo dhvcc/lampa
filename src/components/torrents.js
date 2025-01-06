@@ -1227,11 +1227,7 @@ function component(object){
                                 formData.append('tags', object.movie.poster_path)
                             }
 
-                            const _PROTOCOL = "http://";
-                            const _ADDRESS = window.location.href.split(_PROTOCOL)[1].split("/")[0].split(":")[0];
-                            const CORS_PROXY = `${_PROTOCOL}${_ADDRESS}:5667`;
-                            const QBIT_URL = `${CORS_PROXY}/${_PROTOCOL}qbittorrent:5666`;
-                            
+                            const QBIT_URL = `${window.location.origin}/qbittorrent`;
                             fetch(`${QBIT_URL}/api/v2/torrents/add`, {
                                 method: 'POST',
                                 credentials: 'include',
