@@ -112,12 +112,6 @@ const DEFAULT_PLUGINS = [
     author: "@lme_chat",
   },
   {
-    url: "http://showy.online/m.js",
-    status: 1,
-    name: "Showy",
-    author: "Showy",
-  },
-  {
     url: "http://skaz.tv/tv.js",
     status: 1,
     name: "Телевидение by Skaz ",
