@@ -64,10 +64,22 @@ const DEFAULT_PLUGINS = [
     name: "Пиратские плагины",
   },
   {
-    url: "http://lampa.stream/modss",
+    url: "https://showy.online/m.js",
     status: 1,
-    name: "MODS",
-    author: "@modss_group",
+    name: "Showy Free",
+    author: "@showybot",
+  },
+  {
+    url: "https://showypro.com/m.js",
+    status: 1,
+    name: "Showy Pro [RU]",
+    author: "@showybot",
+  },
+  {
+    url: "http://showy.pro/m.js",
+    status: 1,
+    name: "Showy Pro [EU]",
+    author: "@showybot",
   },
   {
     url: "http://cub.red/plugin/tmdb-proxy",
@@ -149,6 +161,28 @@ function init() {
     Storage.set(key, DEFAULT_SETTINGS[key]);
   }
 
+  if (Storage.get("showy_token", "")) {
+    console.warn("[LAMPA STACK] Showy PRO available. Disabling Showy Free plugin");
+    const currentPlugins = Storage.get("plugins", []);
+    const updatedPlugins = currentPlugins.map(plugin => {
+        if (plugin.url === 'http://showy.online/m.js') {
+            return {...plugin, status: 0};
+        }
+        return plugin;
+    });
+    Storage.set("plugins", updatedPlugins);
+  } else {
+    console.warn("[LAMPA STACK] Showy PRO not available. Enabling Showy Free plugin");
+    const currentPlugins = Storage.get("plugins", []);
+    const updatedPlugins = currentPlugins.map(plugin => {
+        if (plugin.url === 'http://showy.online/m.js') {
+            return {...plugin, status: 0};
+        }
+        return plugin;
+    });
+    Storage.set("plugins", updatedPlugins);
+  }
+
   if (JSON.stringify(Storage.get("plugins", [])) === JSON.stringify([])) {
     console.warn("[LAMPA STACK] No plugins installed. Adding default plugins.");
     for (let plugin of DEFAULT_PLUGINS) {
@@ -158,6 +192,7 @@ function init() {
     console.info("[LAMPA STACK] Plugins already installed. Skipping defaults");
   }
 
+  const menu_hide_value = Storage.get("menu_hide", []);
   if (!menu_hide_value || menu_hide_value === JSON.stringify([])) {
     console.warn("[LAMPA STACK] No menu items hidden. Setting default menu items.");
 
