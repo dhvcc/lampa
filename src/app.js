@@ -937,6 +937,8 @@ function startApp(){
 
     Utils.putScript([Utils.protocol() + Manifest.cub_domain + '/plugin/christmas'],()=>{})
 
+    //Utils.putScript(['./plugins/christmas.js'],()=>{})
+
     /** End */
 }
 
