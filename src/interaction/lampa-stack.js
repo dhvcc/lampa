@@ -144,19 +144,22 @@ const DEFAULT_SETTINGS = {
 };
 
 function init() {
-  console.error("[LAMPA STACK] Init");
+  console.info("[LAMPA STACK] Init, setting default settings");
   for (let key in DEFAULT_SETTINGS) {
     Storage.set(key, DEFAULT_SETTINGS[key]);
   }
 
-  if (JSON.stringify(Storage.field("plugins")) === JSON.stringify([])) {
-    console.error("NO PLUGINS INSTALLED. ADDING DEFAULT PLUGINS.");
+  if (JSON.stringify(Storage.get("plugins", [])) === JSON.stringify([])) {
+    console.warn("[LAMPA STACK] No plugins installed. Adding default plugins.");
     for (let plugin of DEFAULT_PLUGINS) {
       Plugin.add(plugin);
     }
+  } else {
+    console.info("[LAMPA STACK] Plugins already installed. Skipping defaults");
   }
-  if (JSON.stringify(Storage.field("menu_hide")) === JSON.stringify([])) {
-    console.error("NO MENU ITEMS HIDDEN. SETTING DEFAULT MENU ITEMS.");
+
+  if (!menu_hide_value || menu_hide_value === JSON.stringify([])) {
+    console.warn("[LAMPA STACK] No menu items hidden. Setting default menu items.");
 
     const DEFAULT_MENU_SORT = [
       Lampa.Lang.translate("menu_main"),
@@ -204,7 +207,7 @@ function init() {
       Lampa.Noty.show(
         Lampa.Lang.translate("lampa_stack_failed_to_connect_to_qbittorrent")
       );
-      console.error("Failed to authenticate with qBittorrent:", error);
+      console.error("[LAMPA STACK] Failed to authenticate with qBittorrent:", error);
     }
   );
 }

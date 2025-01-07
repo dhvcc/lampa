@@ -35,7 +35,7 @@ export default {
           return;
         }
 
-        console.error("Authentication error:", error);
+        console.error("[QBitTorrent] Authentication error:", error);
         if (fail) fail(error);
       },
       "username=admin&password=admin",
@@ -58,7 +58,7 @@ export default {
       LampaStack.qbittorrent_url + "/api/v2/torrents/resume",
       () => {},
       (error) => {
-        console.error("Failed to start torrent:", error);
+        console.error("[QBitTorrent] Failed to start torrent:", error);
       },
       createFormData(hashes),
       {
@@ -77,7 +77,7 @@ export default {
       LampaStack.qbittorrent_url + "/api/v2/torrents/pause",
       () => {},
       (error) => {
-        console.error("Failed to pause torrent:", error);
+        console.error("[QBitTorrent] Failed to pause torrent:", error);
       },
       createFormData(hashes),
       {
@@ -97,7 +97,7 @@ export default {
       LampaStack.qbittorrent_url + "/api/v2/torrents/delete",
       () => {},
       (error) => {
-        console.error("Failed to delete torrent:", error);
+        console.error("[QBitTorrent] Failed to delete torrent:", error);
       },
       createFormData(hashes, { deleteFiles }),
       {
@@ -145,7 +145,7 @@ export default {
           if (success) success(processed);
         },
         (error) => {
-          console.error("Failed to get torrent list:", error);
+          console.error("[QBitTorrent] Failed to get torrent list:", error);
           if (fail) fail(error);
         },
         undefined,

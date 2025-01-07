@@ -138,9 +138,6 @@ function component(object){
                                 
                                 // PATCH START
                                 QBittorrent.delete(card_data.hash)
-                                    .catch(error => {
-                                        console.error('Failed to delete torrent:', error);
-                                    });
                                 // PATCH END
 
                                 Arrays.remove(items, card)
@@ -151,16 +148,10 @@ function component(object){
                             // PATCH START
                             else if(a.pause) {
                                 QBittorrent.pause(card_data.hash)
-                                    .catch(error => {
-                                        console.error('Failed to stop torrent:', error);
-                                    });
                                 Controller.toggle(enabled)
                             }
                             else if(a.resume) {
                                 QBittorrent.start(card_data.hash)
-                                    .catch(error => {
-                                        console.error('Failed to start torrent:', error);
-                                    });
                                 Controller.toggle(enabled)
                             }
                             // PATCH END
