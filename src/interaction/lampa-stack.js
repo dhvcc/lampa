@@ -149,11 +149,50 @@ const DEFAULT_SETTINGS = {
   parse_in_search: true,
 };
 
+const EU_COUNTRIES = [
+  'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 
+  'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 
+  'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE'
+];
+
+async function checkLocation() {
+  try {
+    const response = await fetch('https://ipapi.co/json/');
+    const data = await response.json();
+    const isEU = EU_COUNTRIES.includes(data.country);
+    
+    const currentPlugins = Storage.get("plugins", []);
+    const updatedPlugins = currentPlugins.map(plugin => {
+      if (plugin.url === 'https://showypro.com/m.js') {
+        return { ...plugin, status: Number(!isEU) };
+      }
+      if (plugin.url === 'http://showy.pro/m.js') {
+        return { ...plugin, status: Number(isEU) };
+      }
+      return plugin;
+    });
+    
+    const pluginsChanged = JSON.stringify(updatedPlugins) !== JSON.stringify(currentPlugins);
+    if (pluginsChanged) {
+      Storage.set("plugins", updatedPlugins);
+      console.info(`[LAMPA STACK] User location: ${data.country}, EU: ${isEU}. Updated Showy plugins accordingly.`);
+      window.location.reload();
+    } else {
+      console.info(`[LAMPA STACK] User location: ${data.country}, EU: ${isEU}. No plugins updated.`);
+    }
+  } catch (error) {
+    console.error('[LAMPA STACK] Failed to check location:', error);
+  }
+}
+
 function init() {
   console.info("[LAMPA STACK] Init, setting default settings");
   for (let key in DEFAULT_SETTINGS) {
     Storage.set(key, DEFAULT_SETTINGS[key]);
   }
+
+  // Check location and update plugins
+  checkLocation();
 
   if (Storage.get("showy_token", "")) {
     console.warn("[LAMPA STACK] Showy PRO available. Disabling Showy Free plugin");
