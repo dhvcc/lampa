@@ -96,6 +96,7 @@ import AppStatus from './interaction/status'
 import Iptv from './utils/iptv'
 import Bell from './interaction/bell'
 import LampaStack from './interaction/lampa-stack'
+import QBitTorrent from './interaction/qbittorrent'
 import HoverSwitcher from './interaction/hover_switcher'
 
 /**
@@ -236,7 +237,8 @@ function initClass(){
         Processing,
         ParentalControl,
         VPN,
-        Bell
+        Bell,
+        QBitTorrent
     }
 }
 
