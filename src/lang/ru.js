@@ -316,8 +316,6 @@ export default {
 
     torrent_get_magnet: 'Запрашиваю magnet ссылку',
     torrent_remove_title: 'Удалить',
-    torrent_resume: 'Продолжить скачивание',
-    torrent_pause: 'Пауза',
     torrent_remove_descr: 'Торрент будет удален из вашего списка',
 
     torrent_parser_any_one: 'Любое',

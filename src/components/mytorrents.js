@@ -13,7 +13,6 @@ import Utils from '../utils/math'
 import Lang from '../utils/lang'
 // PATCH START
 import Storage from '../utils/storage'
-import QBittorrent from '../interaction/qbittorrent'
 // PATCH END
 
 function component(object){
@@ -22,7 +21,7 @@ function component(object){
     let items   = []
     let html    = $('<div></div>')
     // PATCH START
-    let head = $("<div><div style='margin: 1em; width: fit-content;' class='simple-button selector'>Update</div></div>");
+    let head = $("<div><div style='margin: 1em; width: fit-content;' class='simple-button selector'>" + Lang.translate('torrent_update_status') + "</div></div>");
     // PATCH END
     let body    = $('<div class="category-full"></div>')
     let total_pages = 0
@@ -137,7 +136,7 @@ function component(object){
                                 Torserver.remove(card_data.hash)
                                 
                                 // PATCH START
-                                QBittorrent.delete(card_data.hash)
+                                Lampa.QBitTorrent.delete(card_data.hash)
                                 // PATCH END
 
                                 Arrays.remove(items, card)
@@ -147,12 +146,34 @@ function component(object){
                             }
                             // PATCH START
                             else if(a.pause) {
-                                QBittorrent.pause(card_data.hash)
-                                Controller.toggle(enabled)
+                                Lampa.QBitTorrent.pause(card_data.hash).then(() => {
+                                    Lampa.QBitTorrent.sync().then(() => {
+                                        Controller.toggle(enabled)
+                                        Lampa.Activity.push({
+                                            component: 'mytorrents',
+                                            title: Lang.translate('title_mytorrents'),
+                                        });
+                                    }).catch((error) => {
+                                        console.error("[QBitTorrent] Failed to sync after pause:", error);
+                                    });
+                                }).catch((error) => {
+                                    console.error("[QBitTorrent] Failed to pause torrent:", error);
+                                });
                             }
                             else if(a.resume) {
-                                QBittorrent.start(card_data.hash)
-                                Controller.toggle(enabled)
+                                Lampa.QBitTorrent.start(card_data.hash).then(() => {
+                                    Lampa.QBitTorrent.sync().then(() => {
+                                        Controller.toggle(enabled)
+                                        Lampa.Activity.push({
+                                            component: 'mytorrents',
+                                            title: Lang.translate('title_mytorrents'),
+                                        });
+                                    }).catch((error) => {
+                                        console.error("[QBitTorrent] Failed to sync after resume:", error);
+                                    });
+                                }).catch((error) => {
+                                    console.error("[QBitTorrent] Failed to resume torrent:", error);
+                                });
                             }
                             // PATCH END
                             else{
@@ -200,10 +221,15 @@ function component(object){
         // PATCH START
         var reload = head.find('.simple-button');
         reload.on('hover:enter', function () {
-            QBittorrent.sync()
-            Lampa.Activity.push({
-                component: 'mytorrents',
-                title: Lang.translate('title_mytorrents'),
+            console.info("[QBitTorrent] Update pressed, syncing...");
+            Lampa.QBitTorrent.sync().then(() => {
+                console.info("[QBitTorrent] Sync complete");
+                Lampa.Activity.push({
+                    component: 'mytorrents',
+                    title: Lang.translate('title_mytorrents'),
+                });
+            }).catch((error) => {
+                console.error("[QBitTorrent] Sync failed:", error);
             });
         });
         // PATCH END

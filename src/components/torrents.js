@@ -1169,7 +1169,7 @@ function component(object){
                     },
                     // PATCH START
                     {
-                        title: 'Начать скачивание',
+                        title: Lang.translate('torrent_download'),
                         startDownload: true,
                     },
                     // PATCH END

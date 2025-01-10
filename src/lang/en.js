@@ -253,8 +253,6 @@ export default {
 
     torrent_get_magnet: 'Requesting a magnet link',
     torrent_remove_title: 'Delete',
-    torrent_resume: 'Resume',
-    torrent_pause: 'Pause',
     torrent_remove_descr: 'The torrent will be removed from your list',
 
     torrent_parser_any_one: 'Any',
