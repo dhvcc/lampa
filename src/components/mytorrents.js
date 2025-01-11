@@ -154,10 +154,12 @@ function component(object){
                                             title: Lang.translate('title_mytorrents'),
                                         });
                                     }).catch((error) => {
-                                        console.error("[QBitTorrent] Failed to sync after pause:", error);
+                                        console.error("[QBitTorrent]", "Failed to sync after pause:", error);
+                                        console.log("[QBitTorrent]", "Failed to sync after pause:", error);
                                     });
                                 }).catch((error) => {
-                                    console.error("[QBitTorrent] Failed to pause torrent:", error);
+                                    console.error("[QBitTorrent]", "Failed to pause torrent:", error);
+                                    console.log("[QBitTorrent]", "Failed to pause torrent:", error);
                                 });
                             }
                             else if(a.resume) {
@@ -169,10 +171,12 @@ function component(object){
                                             title: Lang.translate('title_mytorrents'),
                                         });
                                     }).catch((error) => {
-                                        console.error("[QBitTorrent] Failed to sync after resume:", error);
+                                        console.error("[QBitTorrent]", "Failed to sync after resume:", error);
+                                        console.log("[QBitTorrent]", "Failed to sync after resume:", error);
                                     });
                                 }).catch((error) => {
-                                    console.error("[QBitTorrent] Failed to resume torrent:", error);
+                                    console.error("[QBitTorrent]", "Failed to resume torrent:", error);
+                                    console.log("[QBitTorrent]", "Failed to resume torrent:", error);
                                 });
                             }
                             // PATCH END
@@ -221,15 +225,16 @@ function component(object){
         // PATCH START
         var reload = head.find('.simple-button');
         reload.on('hover:enter', function () {
-            console.info("[QBitTorrent] Update pressed, syncing...");
+            console.log("[QBitTorrent]", "Update pressed, syncing...", "");
             Lampa.QBitTorrent.sync().then(() => {
-                console.info("[QBitTorrent] Sync complete");
+                console.log("[QBitTorrent]", "Sync complete", "");
                 Lampa.Activity.push({
                     component: 'mytorrents',
                     title: Lang.translate('title_mytorrents'),
                 });
             }).catch((error) => {
-                console.error("[QBitTorrent] Sync failed:", error);
+                console.error("[QBitTorrent]", "Sync failed:", error);
+                console.log("[QBitTorrent]", "Sync failed:", error);
             });
         });
         // PATCH END
