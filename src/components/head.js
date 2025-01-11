@@ -64,6 +64,12 @@ function init(){
 
     html.find('.open--notice').on('hover:enter',Notice.open.bind(Notice))
 
+    // PATCH START
+    html.find('.m-reload-screen-custom').on('hover:enter', () => {window.location.reload()})
+    Lampa.Template.add("DisableMSReload", "<style> .m-reload-screen{display: none;} </style>");
+    $("body").append(Lampa.Template.get("DisableMSReload", {}, true));
+    // PATCH END
+
     html.find('.open--search').on('hover:enter',Search.open.bind(Search))
 
     html.find('.head__logo-icon,.head__menu-icon').on('click',(e)=>{

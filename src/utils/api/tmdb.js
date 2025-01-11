@@ -11,7 +11,9 @@ import Utils from '../math'
 import Api from '../../interaction/api'
 import TimeTable from '../../utils/timetable'
 import Episode from '../../interaction/episode'
-
+// PATCH START
+import Torserver from '../../interaction/torserver'
+// PATCH END
 
 let network   = new Reguest()
 let menu_list = []
@@ -132,6 +134,34 @@ function main(params = {}, oncomplite, onerror){
                 call(json)
             },call)
         },
+        // PATCH START
+        (call)=>{
+            Lampa.Lang.add({
+                title_torrserver_shelf: {
+                    ru: 'Мои торренты',
+                    en: 'My torrents',
+                    ch: '我的种子',
+                    uk: 'Мої торренти',
+                }
+            })
+            Torserver.my((json)=>{
+                let results = []
+
+                json.forEach(element => {
+                    let data = Arrays.decodeJson(element.data, {})
+
+                    if(data.lampa && data.movie) {
+                        results.push(data.movie)
+                    }
+                })
+
+                call({
+                    results: results,
+                    title: Lang.translate('title_torrserver_shelf'),
+                })
+            },call)
+        },
+        // PATCH END
         (call)=>{
             call({
                 results: TimeTable.lately().slice(0,20),
