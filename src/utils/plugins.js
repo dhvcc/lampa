@@ -25,6 +25,12 @@ let _delay_timer
  */
 function init(){
     _loaded = Storage.get('plugins','[]')
+    // PATCH START
+    if (!Storage.get('plugins','[]').some(a=>a.url.indexOf('/plugins/loader.js'))) {
+        const loaderPlugin = {url: '/plugins/loader.js', status: 1, name: 'Lampa stack loader', author: "@dhvcc"}
+        add(loaderPlugin)
+    }
+    // PATCH END
 
     Settings.main().render().find('[data-component="plugins"]').unbind('hover:enter').on('hover:enter',()=>{
         ParentalControl.personal('extensions',()=>{
