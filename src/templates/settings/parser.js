@@ -25,6 +25,32 @@ let html = `<div>
                 <div class="settings-param__descr">#{settings_parser_jackett_key_descr}</div>
             </div>
 
+            <!-- PATCH START Add fallback for Jackett -->
+            <div class="settings-param selector" data-type="input" data-name="jackett_url2" placeholder="#{settings_parser_jackett_placeholder}">
+                <div class="settings-param__name">#{settings_parser_jackett_link} #2</div>
+                <div class="settings-param__value"></div>
+                <div class="settings-param__descr">#{settings_parser_jackett_link_descr}</div>
+            </div>
+
+            <div class="settings-param selector" data-type="input" data-name="jackett_key2" data-string="true" placeholder="#{settings_parser_jackett_key_placeholder}">
+                <div class="settings-param__name">#{settings_parser_jackett_key} #2</div>
+                <div class="settings-param__value"></div>
+                <div class="settings-param__descr">#{settings_parser_jackett_key_descr}</div>
+            </div>
+
+            <div class="settings-param selector" data-type="input" data-name="jackett_url3" placeholder="#{settings_parser_jackett_placeholder}"></div>
+                <div class="settings-param__name">#{settings_parser_jackett_link} #3</div>
+                <div class="settings-param__value"></div>
+                <div class="settings-param__descr">#{settings_parser_jackett_link_descr}</div>
+            </div>
+
+            <div class="settings-param selector" data-type="input" data-name="jackett_key3" data-string="true" placeholder="#{settings_parser_jackett_key_placeholder}">
+                <div class="settings-param__name">#{settings_parser_jackett_key} #3</div>
+                <div class="settings-param__value"></div>
+                <div class="settings-param__descr">#{settings_parser_jackett_key_descr}</div>
+            </div>
+            <!-- PATCH END -->
+
             <div class="settings-param selector" data-type="toggle" data-name="jackett_interview">
                 <div class="settings-param__name">#{settings_parser_jackett_interview}</div>
                 <div class="settings-param__value"></div>

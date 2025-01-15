@@ -691,6 +691,12 @@ trigger('interface_sound_play', false)
  */
 select('jackett_url','','')
 select('jackett_key','','')
+// PATCH START Add fallback for Jackett
+select('jackett_url2','','')
+select('jackett_key2','','')
+select('jackett_url3','','')
+select('jackett_key3','','')
+// PATCH END
 select('prowlarr_url','','');
 select('prowlarr_key','','');
 select('torrserver_url','','')

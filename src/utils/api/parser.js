@@ -242,7 +242,10 @@ function torlookApi(params = {}, oncomplite, onerror){
     })
 }
 
-function jackett(params = {}, oncomplite, onerror){
+// PATCH START Add fallback for Jackett
+function jackett(params = {}, oncomplite, onerror, jackettUrlNumber = 1, jackettUrl = url){
+    url = jackettUrl
+    // PATCH END
     network.timeout(1000 * Storage.field('parse_timeout'))
 
     let u = url + '/api/v2.0/indexers/'+(Storage.field('jackett_interview') == 'healthy' ? 'status:healthy' : 'all')+'/results?apikey='+Storage.field('jackett_key')+'&Query='+encodeURIComponent(params.search)
@@ -274,9 +277,25 @@ function jackett(params = {}, oncomplite, onerror){
 
             oncomplite(json)
         }
-        else onerror(Lang.translate('torrent_parser_no_responce') + ' (' + url + ')')
+        // PATCH START Add fallback for Jackett
+        else {
+            if(++jackettUrlNumber <= 3 && Storage.field(`jackett_url${jackettUrlNumber}`)) {
+                console.error("Error searching,", jackettUrlNumber, Storage.field(`jackett_url${jackettUrlNumber}`))
+                jackett(params, oncomplite, onerror, jackettUrlNumber, Storage.field(`jackett_url${jackettUrlNumber}`))
+            } else {
+                onerror(Lang.translate('torrent_parser_no_responce') + ' (' + url + ')')
+            }
+        }
+        // PATCH END
     },(a,c)=>{
-        onerror(Lang.translate('torrent_parser_no_responce') + ' (' + url + ')')
+        // PATCH START Add fallback for Jackett
+        if(++jackettUrlNumber <= 3 && Storage.field(`jackett_url${jackettUrlNumber}`)) {
+            console.error("Error searching,", jackettUrlNumber, Storage.field(`jackett_url${jackettUrlNumber}`))
+            jackett(params, oncomplite, onerror, jackettUrlNumber, Storage.field(`jackett_url${jackettUrlNumber}`))
+        } else {
+            onerror(Lang.translate('torrent_parser_no_responce') + ' (' + url + ')')
+        }
+        // PATCH END
     })
 }
 
