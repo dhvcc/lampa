@@ -13,6 +13,7 @@ import TimeTable from '../../utils/timetable'
 import Episode from '../../interaction/episode'
 // PATCH START
 import Torserver from '../../interaction/torserver'
+import Card from '../../interaction/card'
 // PATCH END
 
 let network   = new Reguest()
@@ -158,6 +159,9 @@ function main(params = {}, oncomplite, onerror){
                 call({
                     results: results,
                     title: Lang.translate('title_torrserver_shelf'),
+                    cardClass: (_elem, _params)=>{
+                        return new Card({..._elem, shelf: 'torrserver'}, _params)
+                    },
                 })
             },call)
         },

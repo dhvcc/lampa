@@ -166,6 +166,45 @@ function Card(data, params = {}){
 
                 this.card.querySelector('.card__view').appendChild(quality)
             }
+            // PATCH START: Add 'From torrent list' chip
+            Lampa.Lang.add({
+                from_torrent_list: {
+                    ru: 'В списке торрентов',
+                    en: 'From torrent list',
+                    zh: '在种子列表中',
+                    uk: 'В списку торрентів',
+                },
+                torrent_downloaded: {
+                    ru: 'Загружено',
+                    en: 'Downloaded',
+                    zh: '已下载',
+                    uk: 'Завантажено',
+                },
+            })
+            let torrent_hash = Storage.get('torrserver_torrents_by_movie_id', {})[data.id]
+            if (torrent_hash) {
+                const view = this.card.querySelector('.card__view')
+                let status
+                if (data.shelf === 'torrserver') {
+                    let qbit_torrent_status = Storage.get('qbit_torrents', {})[torrent_hash]
+                    if (qbit_torrent_status && qbit_torrent_status.progress === 9) {
+                        status = document.createElement('div')
+                        status.classList.add('card__quality')
+                        let statusInner = document.createElement('div')
+                            statusInner.innerText = Lampa.Lang.translate('torrent_downloaded')
+                            status.appendChild(statusInner)
+                    }
+                } else {
+                    status = document.createElement('div')
+                    status.classList.add('card__quality')
+                    let statusInner = document.createElement('div')
+                        statusInner.innerText = Lampa.Lang.translate('from_torrent_list')
+                        status.appendChild(statusInner)
+                }
+
+                if (status) view.appendChild(status)
+            }
+            // PATCH END
         }
 
         this.card.addEventListener('visible',this.visible.bind(this))

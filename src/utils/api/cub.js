@@ -12,6 +12,9 @@ import Activity from '../../interaction/activity'
 import Api from '../../interaction/api'
 import TimeTable from '../../utils/timetable'
 import Episode from '../../interaction/episode'
+// PATCH START
+import Card from '../../interaction/card'
+// PATCH END
 import Manifest from '../manifest'
 
 let baseurl   = Utils.protocol() + 'tmdb.'+Manifest.cub_domain+'/'
@@ -88,6 +91,9 @@ function main(params = {}, oncomplite, onerror){
                 call({
                     results: results,
                     title: Lang.translate('title_torrserver_shelf'),
+                    cardClass: (_elem, _params)=>{
+                        return new Card({..._elem, shelf: 'torrserver'}, _params)
+                    },
                 })
             },call)
         },
