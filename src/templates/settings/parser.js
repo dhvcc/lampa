@@ -38,7 +38,7 @@ let html = `<div>
                 <div class="settings-param__descr">#{settings_parser_jackett_key_descr}</div>
             </div>
 
-            <div class="settings-param selector" data-type="input" data-name="jackett_url3" placeholder="#{settings_parser_jackett_placeholder}"></div>
+            <div class="settings-param selector" data-type="input" data-name="jackett_url3" placeholder="#{settings_parser_jackett_placeholder}">
                 <div class="settings-param__name">#{settings_parser_jackett_link} #3</div>
                 <div class="settings-param__value"></div>
                 <div class="settings-param__descr">#{settings_parser_jackett_link_descr}</div>

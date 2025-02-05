@@ -696,6 +696,8 @@ select('jackett_url2','','')
 select('jackett_key2','','')
 select('jackett_url3','','')
 select('jackett_key3','','')
+select('qbittorrent_user','','')
+select('qbittorrent_password','','')
 // PATCH END
 select('prowlarr_url','','');
 select('prowlarr_key','','');
