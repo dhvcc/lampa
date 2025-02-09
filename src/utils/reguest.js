@@ -344,9 +344,6 @@ function create(){
                 let use = Storage.field('torrserver_auth')
 				let srv = Storage.get(Storage.field('torrserver_use_link') == 'two' ? 'torrserver_url_two' : 'torrserver_url')
 
-                // PATCH START Remove browser Basic auth popup if lampa requests
-                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
-                // PATCH END
 				if(use && srv && params.url.indexOf(srv) >= 0){
                     let authorization = "Basic " + Base64.encode(Storage.get('torrserver_login')+':'+Storage.get('torrserver_password'))
                     console.log('Request','authorization:',authorization)
