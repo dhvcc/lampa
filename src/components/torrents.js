@@ -981,33 +981,6 @@ function component(object){
         }
     }
 
-    this.loadMagnet = function(element, call){
-        Parser.marnet(element,()=>{
-            Modal.close()
-
-            element.poster = object.movie.img
-
-            this.start()
-
-            if(call) call()
-            else Torrent.start(element, object.movie)
-        },(text)=>{
-            Modal.update(Template.get('error',{title: Lang.translate('title_error'), text: text}))
-        })
-
-        Modal.open({
-            title: '',
-            html: Template.get('modal_pending',{text: Lang.translate('torrent_get_magnet')}),
-            onBack: ()=>{
-                Modal.close()
-
-                network.clear()
-
-                Controller.toggle('content')
-            }
-        })
-    }
-
     this.mark = function(element, item, add){
         if(add){
             if(viewed.indexOf(element.hash) == -1){
@@ -1148,16 +1121,11 @@ function component(object){
                     this.mark(element, item, true)
                 })
 
-                if(element.reguest && !element.MagnetUri){
-                    this.loadMagnet(element)
-                }
-                else{
-                    element.poster = object.movie.img
+                element.poster = object.movie.img
 
-                    this.start()
+                this.start()
 
-                    Torrent.start(element, object.movie)
-                }
+                Torrent.start(element, object.movie)
 
                 Lampa.Listener.send('torrent',{type:'onenter',element,item})
             }).on('hover:long',()=>{
@@ -1195,12 +1163,7 @@ function component(object){
                     },
                     onSelect: (a)=>{
                         if(a.tomy){
-                            if(element.reguest && !element.MagnetUri){
-                                this.loadMagnet(element, ()=>{
-                                    this.addToBase(element)
-                                })
-                            }
-                            else this.addToBase(element)
+                            this.addToBase(element)
                         }
                         // PATCH START
                         else if (a.startDownload) {
@@ -1288,6 +1251,8 @@ function component(object){
             toggle: ()=>{
                 Controller.collectionSet(scroll.render(),files.render(true))
                 Controller.collectionFocus(last || false,scroll.render(true))
+
+                Navigator.remove(files.render().find('.explorer-card__head-img')[0])
             },
             update: ()=>{},
             up: ()=>{
@@ -1304,11 +1269,8 @@ function component(object){
                 else filter.render().find('.filter--filter').trigger('hover:enter')
             },
             left: ()=>{
-                let poster = files.render().find('.explorer-card__head-img')
-
-                if(poster.hasClass('focus')) Controller.toggle('menu')
-                else if(Navigator.canmove('left')) Navigator.move('left')
-                else Navigator.focus(poster[0])
+                if(Navigator.canmove('left')) Navigator.move('left')
+                else files.toggle()
             },
             back: this.back
         })
