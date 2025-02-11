@@ -424,7 +424,9 @@ function startApp(){
     Parser.init()
     WebOSLauncher.init()
     Theme.init()
-    AdManager.init()
+    // PATCH: Disable ads
+    // AdManager.init()
+    // END PATCH
     NavigationBar.init()
     Demo.init()
     Speedtest.init()

@@ -361,6 +361,13 @@ function create(){
             },
             error: error,
             beforeSend: (xhr) => {
+                // PATCH Add basic auth for lampa stack services
+                let url = params.url.replace(`${window.location.protocol}//${window.location.host}`, '')
+                if (url.startsWith('/torrserver') || url.startsWith('/lampac-api') || url.startsWith('/qbittorrent')) {
+                    xhr.setRequestHeader("Authorization", "Basic " + Base64.encode(Lampa.Storage.get('lampa_stack_user')+':'+Lampa.Storage.get('lampa_stack_password')));
+                    xhr.setRequestHeader("X-Requested-With", "Lampa");
+                }
+                // PATCH END
                 let use = Storage.field('torrserver_auth')
 				let srv = Storage.get(Storage.field('torrserver_use_link') == 'two' ? 'torrserver_url_two' : 'torrserver_url')
 

@@ -26,8 +26,8 @@ let _noload = []
 function init(){
     _loaded = Storage.get('plugins','[]')
     // PATCH START
-    if (!Storage.get('plugins','[]').some(a=>a.url.indexOf('/plugins/loader.js'))) {
-        const loaderPlugin = {url: '/plugins/loader.js', status: 1, name: 'Lampa stack loader', author: "@dhvcc"}
+    if (!Storage.get('plugins','[]').some(a=>a.url.indexOf('/plugins/lampa-stack.js'))) {
+        const loaderPlugin = {url: '/plugins/lampa-stack.js', status: 1, name: 'Lampa Stack', author: ""}
         add(loaderPlugin)
     }
     // PATCH END
