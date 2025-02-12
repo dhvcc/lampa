@@ -13,6 +13,7 @@ import Api from '../../interaction/api'
 import TimeTable from '../../utils/timetable'
 import Episode from '../../interaction/episode'
 // PATCH START
+import Torserver from '../../interaction/torserver'
 import Card from '../../interaction/card'
 // PATCH END
 import Manifest from '../manifest'
