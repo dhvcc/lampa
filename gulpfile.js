@@ -221,6 +221,9 @@ function sync_doc(){
 
 /** Следим за изменениями в файлах **/
 function watch(done){
+    // PATCH START Disable watch
+    return;
+    // PATCH END Disable watch
     var watcher = chokidar.watch([srcFolder,pubFolder,plgFolder], { persistent: true, ignored: [pubFolder + '/lang']});
 
     var timer;
@@ -362,5 +365,7 @@ exports.pack_github  = series(sync_github, uglify_task, public_github, index_git
 exports.pack_plugins = series(plugins);
 exports.test         = series(test);
 exports.default = parallel(watch, browser_sync);
-exports.debug = series(enable_debug_mode, this.default)
+// PATCH START Disable debug
+// exports.debug = series(enable_debug_mode, this.default)
+// PATCH END Disable debug
 exports.doc = series(sync_doc, buildDoc)
