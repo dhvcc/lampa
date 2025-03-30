@@ -75,7 +75,9 @@ import Developer from './interaction/developer'
 import DeviceInput from './utils/device_input'
 import AppWorker from './utils/worker'
 import Theme from './utils/theme'
-import AdManager from './interaction/ad/manager'
+// PATCH: Disable ads
+// import AdManager from './interaction/ad/manager'
+// END PATCH
 import DB from './utils/db'
 import NavigationBar from './interaction/navigation_bar'
 import Endless from './interaction/endless'
